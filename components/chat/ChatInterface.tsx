@@ -28,7 +28,7 @@ export default function ChatInterface() {
       id: uuidv4(),
       role: 'user',
       content: input.trim(),
-      createdAt: new Date(),
+      created_at: new Date().toISOString(),
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -54,7 +54,7 @@ export default function ChatInterface() {
         id: uuidv4(),
         role: 'assistant',
         content: data.response,
-        createdAt: new Date(),
+        created_at: new Date().toISOString(),
       };
 
       setMessages(prev => [...prev, assistantMessage]);
