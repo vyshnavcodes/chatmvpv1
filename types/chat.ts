@@ -4,7 +4,7 @@ export interface Message {
   id: string;
   role: Role;
   content: string;
-  createdAt: Date;
+  created_at: string;
 }
 
 export interface ChatMessage {

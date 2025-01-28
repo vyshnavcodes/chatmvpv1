@@ -1,3 +1,5 @@
+'use client';
+
 import { Message } from '@/types/chat';
 import { format } from 'date-fns';
 
@@ -9,18 +11,18 @@ export default function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
 
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
+    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
-        className={`max-w-[70%] rounded-lg px-4 py-2 ${
+        className={`max-w-[80%] rounded-lg p-3 ${
           isUser
-            ? 'bg-indigo-600 text-white'
-            : 'bg-gray-100 text-gray-900'
+            ? 'bg-blue-500 text-white rounded-br-none'
+            : 'bg-gray-100 text-gray-800 rounded-bl-none'
         }`}
       >
-        <div className="text-sm">{message.content}</div>
-        <div className={`text-xs mt-1 ${isUser ? 'text-indigo-200' : 'text-gray-500'}`}>
-          {format(message.createdAt, 'HH:mm')}
-        </div>
+        <p className="text-sm">{message.content}</p>
+        <span className="text-xs opacity-70 mt-1 block">
+          {new Date(message.created_at).toLocaleTimeString()}
+        </span>
       </div>
     </div>
   );

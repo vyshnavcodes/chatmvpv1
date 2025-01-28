@@ -2,6 +2,9 @@ import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Pages that don't require authentication
+const publicPages = ['/auth', '/test'];
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
@@ -10,9 +13,12 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // If user is not signed in and the current path is not /auth,
+  // Check if the current page is public
+  const isPublicPage = publicPages.includes(req.nextUrl.pathname);
+
+  // If user is not signed in and the current page is not public,
   // redirect the user to /auth
-  if (!session && req.nextUrl.pathname !== '/auth') {
+  if (!session && !isPublicPage) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = '/auth';
     return NextResponse.redirect(redirectUrl);

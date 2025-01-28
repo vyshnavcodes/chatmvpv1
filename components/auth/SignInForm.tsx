@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { z } from 'zod';
 
@@ -14,6 +15,8 @@ export default function SignInForm() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +34,8 @@ export default function SignInForm() {
       if (error) throw error;
 
       toast.success('Signed in successfully!');
+      router.push('/dashboard');
+      router.refresh();
     } catch (error) {
       console.error('Error:', error);
       toast.error(error instanceof Error ? error.message : 'Failed to sign in');
